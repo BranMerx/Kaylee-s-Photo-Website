@@ -9,3 +9,26 @@ body{
     text-align: center;
     text-decoration-color: antiquewhite;
 }
+
+h1{
+    color: #fff;
+    font-size: 50px;
+    text-shadow: 2px 2px 4px #000000;
+}
+
+h2{
+    color: #fff;
+    font-size: 30px;
+    text-shadow: 2px 2px 4px #000000;
+}
+
+button{
+    background-color: #fff;
+    color: #000;
+    border: none;
+    padding: 10px 20px;
+    font-size: 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    box-shadow: 2px 2px 4px #000000;
+}
