@@ -12,3 +12,5 @@ document.getElementById('vistaButon').addEventListener('click', function(){
   //Change the index html element to the collage view
   window.location.href = "photo_collage.html";
 });
+
+//Function to send pictures to database
