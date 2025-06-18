@@ -7,7 +7,6 @@ document.getElementById('español').addEventListener('click', function(){
 
 //Event Listener for upload button to access phone camera
 document.getElementById('uploadButton').addEventListener('click', function(){
-
 });
 
 //Event listener to view the collage
