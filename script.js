@@ -9,7 +9,7 @@ document.getElementById('español').addEventListener('click', function(){
 document.getElementById('uploadButton').addEventListener('click', function(){
 });
 
-//Event listener to view the collage
+
 document.getElementById('viewCollageButton').addEventListener('click', function(){
   //Change the index html element to the collage view
   window.location.href = "photo_collage.html";
