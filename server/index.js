@@ -18,17 +18,43 @@ const dbConfig = {
   }
 };
 
+// Global variable to reuse the pool
+let pool;
+
+sql.connect(dbConfig)
+  .then((p) => {
+    pool = p;
+    console.log('✅ SQL Server connection successful!');
+
+    // Start server *after* DB connects
+    app.listen(PORT, () => {
+      console.log(`Server running at http://localhost:${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error('❌ Failed to connect to SQL Server:', err);
+  });
+
 app.get('/api/photos', async (req, res) => {
   try {
-    await sql.connect(dbConfig);
-    const result = await sql.query`SELECT * FROM Photos`;
+    const result = await pool.request().query('SELECT * FROM Photos');
     res.json(result.recordset);
   } catch (err) {
-    console.error(err);
+    console.error('❌ /api/photos error:', err);
     res.status(500).send('Database error');
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
+app.get('/api/test-connection', async (req, res) => {
+  try {
+    // Just check if pool is connected
+    if (pool) {
+      res.send('✅ Connection to SQL Server is working!');
+    } else {
+      res.status(500).send('❌ No active SQL connection.');
+    }
+  } catch (err) {
+    console.error('❌ /api/test-connection error:', err);
+    res.status(500).send('❌ Failed to test connection.');
+  }
 });
