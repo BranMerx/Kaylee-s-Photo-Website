@@ -1,6 +1,6 @@
 require('dotenv').config();
 const express = require('express');
-const sql = require('mssql');
+const sql = require('mssql/msnodesqlv8');
 const cors = require('cors');
 
 const app = express();
@@ -10,13 +10,11 @@ app.use(cors());
 app.use(express.json());
 
 const dbConfig = {
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
   server: process.env.DB_SERVER,
   database: process.env.DB_DATABASE,
+  driver: 'msnodesqlv8',
   options: {
-    trustServerCertificate: true,
-    encrypt: false
+    trustedConnection: true
   }
 };
 
