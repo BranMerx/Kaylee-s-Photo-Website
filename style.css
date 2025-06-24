@@ -1,5 +1,7 @@
 body{
-    background-color: #1592db;
+    background-image: url("MagicWallPaper.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
     font-family: Snell Roundhand, cursive;
     margin: 0;
     padding: 20px;
