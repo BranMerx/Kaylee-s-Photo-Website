@@ -16,12 +16,28 @@ document.getElementById('uploadButton').addEventListener('click', () => {
   document.getElementById('fileInput').click();
 });
 
-document.getElementById('fileInput').addEventListener('change', (event) => {
+document.getElementById('fileInput').addEventListener('change', async (event) => {
   const file = event.target.files[0];
-  if (file){
-    console.log("Picture taken or uploaded:", file);
-  }
+  const firstName = document.getElementById('FirstName').value;
+  const lastName = document.getElementById('LastName').value;
 
+  const formData = new FormData();
+  formData.append('firstName', firstName);
+  formData.append('lastName', lastName);
+  formData.append('photo', file);
+
+  try {
+    const response = await fetch('http://localhost:3000/upload', {
+      method: 'POST',
+      body: formData
+    });
+
+    const result = await response.json();
+    alert(result.message || "Upload complete!");
+  } catch (error) {
+    console.error("Error uploading:", error);
+    alert("Upload failed.");
+  }
   //Logic to store the photo in the database
   
 });
