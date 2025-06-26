@@ -13,4 +13,8 @@ function addPhotoToGrid(photoUrl) {
   photoGrid.appendChild(gridItem);
 }
 
+document.addEventListener('returnButton').addEventListener('click', function() {
+  // Redirect to the main page
+  window.location.href = "index.html";
+});
 //function to get photo url from database
