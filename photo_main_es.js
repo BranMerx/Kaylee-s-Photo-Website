@@ -1,9 +1,6 @@
-const photoGrid = document.getElementById('photoGrid');
-document.getElementById('returnButton').addEventListener('click', function(){
-  window.location.href = "index.html";
+document.getElementById('returnButton_es').addEventListener('click', function(){
+  window.location.href = "index_es.html";
 });
-
-//Function to add a photo to the grid
 function addPhotoToGrid(photoUrl) {
   const gridItem = document.createElement('div');
   gridItem.className = 'grid-item';
@@ -15,5 +12,3 @@ function addPhotoToGrid(photoUrl) {
   gridItem.appendChild(img);
   photoGrid.appendChild(gridItem);
 }
-
-//function to get photo url from database
