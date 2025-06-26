@@ -1,5 +1,13 @@
 const photoGrid = document.getElementById('photoGrid');
+document.addEventListener('returnButton').addEventListener('click', function() {
+  // Redirect to the main page
+  window.location.href = "index.html";
+});
 
+document.addEventListener('returnButton_es').addEventListener('click', function() {
+  // Redirect to the main page in Spanish
+  window.location.href = "index_es.html";
+});
 //Function to add a photo to the grid
 function addPhotoToGrid(photoUrl) {
   const gridItem = document.createElement('div');
@@ -13,8 +21,4 @@ function addPhotoToGrid(photoUrl) {
   photoGrid.appendChild(gridItem);
 }
 
-document.addEventListener('returnButton').addEventListener('click', function() {
-  // Redirect to the main page
-  window.location.href = "index.html";
-});
 //function to get photo url from database
