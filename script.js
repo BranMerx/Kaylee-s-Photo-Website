@@ -21,6 +21,14 @@ document.getElementById('fileInput').addEventListener('change', async (event) =>
   const firstName = document.getElementById('FirstName').value;
   const lastName = document.getElementById('LastName').value;
 
+  if (!file) {
+    alert("Please select a file to upload.");
+    return;
+  } else if (!firstName || !lastName) {
+    alert("Please enter both first and last names.");
+    return;
+  }
+
   const formData = new FormData();
   formData.append('firstName', firstName);
   formData.append('lastName', lastName);
@@ -38,7 +46,6 @@ document.getElementById('fileInput').addEventListener('change', async (event) =>
     console.error("Error uploading:", error);
     alert("Upload failed.");
   }
-  //Logic to store the photo in the database
   
 });
 

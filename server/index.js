@@ -1,13 +1,22 @@
 require('dotenv').config();
 const express = require('express');
+const multer = require('multer');
+const AWS = require('aws-sdk');
 const sql = require('mssql/msnodesqlv8');
 const cors = require('cors');
+const path = require('path');
 
 const app = express();
-const PORT = 3000;
-
 app.use(cors());
 app.use(express.json());
+
+const upload = multer({ storage: multer.memoryStorage() });
+
+const s3 = new AWS.S3({
+  accessKeyId: process.env.AWS_ACCESS,
+  secretAccessKey: process.env.AWS_SECRET,
+  region: process.env.AWS_REGION
+});
 
 const dbConfig = {
   server: process.env.DB_SERVER,
@@ -18,43 +27,32 @@ const dbConfig = {
   }
 };
 
-// Global variable to reuse the pool
-let pool;
+app.post('/upload', upload.single('photo'), async (req, res) => {
+  const { firstName, lastName } = req.body;
+  const file = req.file;
 
-sql.connect(dbConfig)
-  .then((p) => {
-    pool = p;
-    console.log('✅ SQL Server connection successful!');
+  if (!file) return res.status(400).json({ message: 'No image uploaded' });
 
-    // Start server *after* DB connects
-    app.listen(PORT, () => {
-      console.log(`Server running at http://localhost:${PORT}`);
-    });
-  })
-  .catch((err) => {
-    console.error('❌ Failed to connect to SQL Server:', err);
-  });
+  const s3Params = {
+    Bucket: process.env.S3_BUCKET,
+    Key: `${Date.now()}_${file.originalname}`,
+    Body: file.buffer,
+    ContentType: file.mimetype
+  };
 
-app.get('/api/photos', async (req, res) => {
   try {
-    const result = await pool.request().query('SELECT * FROM Photos');
-    res.json(result.recordset);
+    const s3Data = await s3.upload(s3Params).promise();
+    const imageUrl = s3Data.Location;
+
+    await sql.connect(dbConfig);
+    await sql.query`INSERT INTO Guests (FirstName, LastName, ImageUrl) VALUES (${firstName}, ${lastName}, ${imageUrl})`;
+
+    res.json({ message: 'Upload successful', imageUrl });
   } catch (err) {
-    console.error('❌ /api/photos error:', err);
-    res.status(500).send('Database error');
+    console.error(err);
+    res.status(500).json({ message: 'Error uploading or saving data' });
   }
 });
 
-app.get('/api/test-connection', async (req, res) => {
-  try {
-    // Just check if pool is connected
-    if (pool) {
-      res.send('✅ Connection to SQL Server is working!');
-    } else {
-      res.status(500).send('❌ No active SQL connection.');
-    }
-  } catch (err) {
-    console.error('❌ /api/test-connection error:', err);
-    res.status(500).send('❌ Failed to test connection.');
-  }
-});
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
