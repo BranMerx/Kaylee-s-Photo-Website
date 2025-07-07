@@ -12,47 +12,66 @@ app.use(express.json());
 
 const upload = multer({ storage: multer.memoryStorage() });
 
-const s3 = new AWS.S3({
-  accessKeyId: process.env.AWS_ACCESS,
-  secretAccessKey: process.env.AWS_SECRET,
-  region: process.env.AWS_REGION
+//AWS S3 configuration
+AWS.config.update({
+  accessKeyId: 'AKIAV2NS6RA6HLSVYKLL',
+  secretAccessKey: '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',
+  region: 'us-east-2'
 });
 
-const dbConfig = {
-  server: process.env.DB_SERVER,
-  database: process.env.DB_DATABASE,
-  driver: 'msnodesqlv8',
-  options: {
-    trustedConnection: true
+const s3 = new AWS.S3();
+
+const sqlConfig = {
+  database: 'Kaylee_Quince',
+  server: 'MERX_LAPT/SQLEXPRESS',
+  options:{
+    encrypt: true,
+    trustServerCertificate: true // Use this if you're connecting to a local SQL Server
   }
-};
+}
+
+//upload route
 
 app.post('/upload', upload.single('photo'), async (req, res) => {
   const { firstName, lastName } = req.body;
-  const file = req.file;
+  const photo = req.file;
 
-  if (!file) return res.status(400).json({ message: 'No image uploaded' });
+  try{
+    // Upload to S3
+    const s3Params = {
+      Bucket: 'kaylee-quince',
+      Key: `photos/${Date.now()}_${photo.originalname}`,
+      Body: photo.buffer,
+      ContentType: photo.mimetype,
+      ACL: 'public-read' // Make the file publicly readable
+    };
+    const s3Result = await s3.upload(s3Params).promise();
+    const s3URL = s3Result.Location;
 
-  const s3Params = {
-    Bucket: process.env.S3_BUCKET,
-    Key: `${Date.now()}_${file.originalname}`,
-    Body: file.buffer,
-    ContentType: file.mimetype
-  };
+    //Save to SQL server
+    await sql.connect(sqlConfig);
+    const result = await sql.query`
+      INSERT INTO [User] (FirstName, LastName)
+      OUTPUT INSERTED.UserID
+      VALUES (${firstName}, ${lastName})`;
 
-  try {
-    const s3Data = await s3.upload(s3Params).promise();
-    const imageUrl = s3Data.Location;
+    const userId = result.recordset[0].UserID;
 
-    await sql.connect(dbConfig);
-    await sql.query`INSERT INTO Guests (FirstName, LastName, ImageUrl) VALUES (${firstName}, ${lastName}, ${imageUrl})`;
+    await sql.query`
+      INSERT INTO[Picture] (UserID, S3URL)
+      OUTPUT INSERTED.PictureID
+      OUTPUT INSERTED.UploadDate
+      VALUES (${userId}, ${s3URL})`;
 
-    res.json({ message: 'Upload successful', imageUrl });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Error uploading or saving data' });
+    const pictureId = result.recordset[0].PictureID;
+    const uploadDate = result.recordset[0].UploadDate;
+
+    res.send('Upload successful'); 
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error uploading file');
   }
 });
 
-const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

@@ -16,4 +16,3 @@ function addPhotoToGrid(photoUrl) {
   photoGrid.appendChild(gridItem);
 }
 
-//function to get photo url from database
