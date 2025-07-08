@@ -4,22 +4,32 @@ document.getElementById('español').addEventListener('click', function(){
   window.location.href = "index_es.html";
    
 });
-
-document.getElementById('viewCollageButton').addEventListener('click', function(){
   //Change the index html element to the collage view
+document.getElementById('viewCollageButton').addEventListener('click', function(){
   window.location.href = "photo_collage.html";
 });
 
-//Event Listener for upload button to access phone camera
+//Event Listener for upload button to access phone camera and upload the picture
 document.getElementById('uploadButton').addEventListener('click', () => {
   // This triggers the file input (which can open the camera on mobile)
   document.getElementById('fileInput').click();
 });
 
+//Event listener to send collected file to the database
+document
+
 document.getElementById('fileInput').addEventListener('change', async (event) => {
   const file = event.target.files[0];
   const firstName = document.getElementById('FirstName').value;
   const lastName = document.getElementById('LastName').value;
+
+  //updating file name status display
+  const fileStatus = document.getElementById('fileStatus');
+  if (file){
+    fileStatus.textContent = `Selected file: ${file.name}`;
+  }else {
+    fileStatus.textContent = "No file selected.";
+  }
 
   if (!file) {
     alert("Please select a file to upload.");

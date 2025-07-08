@@ -14,8 +14,8 @@ const upload = multer({ storage: multer.memoryStorage() });
 
 //AWS S3 configuration
 AWS.config.update({
-  accessKeyId: 'AKIAV2NS6RA6HLSVYKLL',
-  secretAccessKey: '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',
+  accessKeyId: '',
+  secretAccessKey: '',
   region: 'us-east-2'
 });
 
