@@ -14,16 +14,16 @@ const upload = multer({ storage: multer.memoryStorage() });
 
 //AWS S3 configuration
 AWS.config.update({
-  accessKeyId: '',
-  secretAccessKey: '',
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID ,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
   region: 'us-east-2'
 });
 
 const s3 = new AWS.S3();
 
 const sqlConfig = {
-  database: 'Kaylee_Quince',
-  server: 'MERX_LAPT/SQLEXPRESS',
+  database: process.env.DB_DATABASE,
+  server: process.env.DB_SERVER,
   options:{
     encrypt: true,
     trustServerCertificate: true // Use this if you're connecting to a local SQL Server

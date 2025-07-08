@@ -16,6 +16,14 @@ document.getElementById('fileInput').addEventListener('change', async (event) =>
   const firstName = document.getElementById('FirstName').value;
   const lastName = document.getElementById('LastName').value;
 
+  ///updating file name status display
+  const fileStatus = document.getElementById('statusDeFoto');
+  if (file) {
+    fileStatus.textContent = `Archivo seleccionado: ${file.name}`;
+  } else {
+    fileStatus.textContent = "No se ha seleccionado ningún archivo.";
+  }
+
   if (!file) {
     alert("Please select a file to upload.");
     return;
@@ -42,8 +50,3 @@ document.getElementById('fileInput').addEventListener('change', async (event) =>
     alert("Upload failed.");
   }
 });
-
-//event listener to view the collage
-
-
-//Function to send pictures to database
