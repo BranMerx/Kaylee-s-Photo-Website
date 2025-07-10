@@ -39,6 +39,20 @@ button{
     border-radius: 5px;
     box-shadow: 2px 2px 4px #000000;
 }
+input[type="text"] {
+    width: 300px;
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+label {
+    color: #fff;
+    font-size: 20px;
+    margin-right: 10px;
+}
 
 .container {
     display: flex;

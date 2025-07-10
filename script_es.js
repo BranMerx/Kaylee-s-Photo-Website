@@ -38,7 +38,7 @@ document.getElementById('fileInput').addEventListener('change', async (event) =>
   formData.append('photo', file);
 
   try {
-    const response = await fetch('http://localhost:3000/upload', {
+    const response = await fetch('http://localhost:8080/upload', {
       method: 'POST',
       body: formData
     });
