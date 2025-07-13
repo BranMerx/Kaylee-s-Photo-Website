@@ -91,3 +91,33 @@ app.post('/upload', upload.single('file'), async (req, res) => {
 app.listen(5432, () => {
   console.log('Server running on port 5432');
 });
+
+//fetching photos and names from Supabase
+// Fetch photos and names from Supabase
+app.get('/photos', async (req, res) => {
+  try {
+    const { data, error } = await supabase
+      .from('Picture')
+      .select(`
+        S3url,
+        User:UserID (
+          FirstName,
+          LastName
+        )
+      `);
+
+    if (error) throw error;
+
+    // Flatten the nested User object
+    const formattedPhotos = data.map(item => ({
+      S3url: item.S3url,
+      FirstName: item.User.FirstName,
+      LastName: item.User.LastName
+    }));
+
+    res.json(formattedPhotos);
+  } catch (error) {
+    console.error('Error fetching photos:', error.message);
+    res.status(500).json({ message: 'Error fetching photos', error: error.message });
+  }
+});

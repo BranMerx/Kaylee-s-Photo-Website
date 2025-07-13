@@ -1,18 +1,23 @@
 const photoGrid = document.getElementById('photoGrid');
+
 document.getElementById('returnButton').addEventListener('click', function(){
   window.location.href = "index.html";
 });
 
 //Function to add a photo to the grid
-function addPhotoToGrid(photoUrl) {
+function addPhotoToGrid(photoUrl, fullName) {
   const gridItem = document.createElement('div');
   gridItem.className = 'grid-item';
 
   const img = document.createElement('img');
   img.src = photoUrl;
-  img.alt = 'Uploaded Photo';
+  img.alt = fullName;
+
+  const name = document.createElement('p');
+  name.textContent = fullName;
 
   gridItem.appendChild(img);
+  gridItem.appendChild(name);
   photoGrid.appendChild(gridItem);
 }
 
@@ -24,7 +29,12 @@ async function fetchPhotos() {
       throw new Error('Network response was not ok');
     }
     const photos = await response.json();
-    photos.forEach(photo => addPhotoToGrid(photo.S3url));
+
+
+    photos.forEach(photo => {
+      const fullName = `${photo.FirstName} ${photo.LastName}`;
+      addPhotoToGrid(photo.S3URL, fullName);
+    }); 
   } catch (error) {
     console.error('Error fetching photos:', error);
   }
