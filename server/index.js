@@ -88,8 +88,9 @@ app.post('/upload', upload.single('file'), async (req, res) => {
   }
 });
 
-app.listen(5432, () => {
-  console.log('Server running on port 5432');
+const PORT = process.env.PORT || 5342;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
 
 //fetching photos and names from Supabase
