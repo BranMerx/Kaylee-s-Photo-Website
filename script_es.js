@@ -1,5 +1,12 @@
-document.getElementById('english').addEventListener('click', function(){
-  window.location.href = "index.html";
+//Event listener for the spanish language button
+document.getElementById('languageSelectEs').addEventListener('change', function() {
+  const selectedLanguage = this.value;
+  // Change the index html element to the selected language
+  if (selectedLanguage === 'en') {
+    window.location.href = "index.html";
+  } else {
+    window.location.href = "index_es.html";
+  }
 });
 document.getElementById('vistaButon').addEventListener('click', function(){
   //Change the index html element to the collage view
