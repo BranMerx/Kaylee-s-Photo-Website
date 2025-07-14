@@ -24,7 +24,7 @@ function addPhotoToGrid(photoUrl, fullName) {
 // Function to fetch and display photos from the server
 async function fetchPhotos() {
   try {
-    const response = await fetch('http://localhost:5342/photos');
+    const response = await fetch('https://kaylee-s-photo-website-production.up.railway.app');
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
