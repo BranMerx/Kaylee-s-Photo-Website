@@ -1,4 +1,9 @@
 //Event listener for the spanish language button
+// Highlight correct option in language selector
+const currentLang = window.location.pathname.includes('_es') ? 'es' : 'en';
+const langSelect = document.getElementById('languageSelect') || document.getElementById('languageSelectEs');
+if (langSelect) langSelect.value = currentLang;
+
 document.getElementById('languageSelect').addEventListener('change', function() {
   const selectedLanguage = this.value;
   // Change the index html element to the selected language

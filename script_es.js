@@ -1,4 +1,9 @@
 //Event listener for the spanish language button
+// Highlight correct option in language selector
+const currentLang = window.location.pathname.includes('_es') ? 'es' : 'en';
+const langSelect = document.getElementById('languageSelect') || document.getElementById('languageSelectEs');
+if (langSelect) langSelect.value = currentLang;
+
 document.getElementById('languageSelectEs').addEventListener('change', function() {
   const selectedLanguage = this.value;
   // Change the index html element to the selected language
@@ -52,7 +57,7 @@ document.getElementById('enviarButon').addEventListener('click', async () => {
   formData.append('file', selectedFile);
 
   try {
-    const response = await fetch('http://localhost:5342/upload', {
+    const response = await fetch('https://kaylee-s-photo-website-production.up.railway.app/upload', {
       method: 'POST',
       body: formData
     });

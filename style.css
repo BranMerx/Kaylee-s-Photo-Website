@@ -71,16 +71,25 @@ label {
 }
 
 .language-dropdown {
-  background-color: #ffffff;
-  padding: 8px 12px;
-  border-radius: 8px;
-  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 16px;
 }
 
-.language-label {
-  margin-right: 8px;
-  color: #333;
-  font-weight: bold;
+.language-dropdown label {
+  margin-right: 5px;
+  color: white;
+  font-weight: 600;
+}
+
+.language-dropdown select {
+  padding: 4px 10px;
+  font-size: 14px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: #f8f8f8;
+  cursor: pointer;
 }
 
 select {
