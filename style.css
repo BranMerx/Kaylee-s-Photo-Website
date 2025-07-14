@@ -2,29 +2,29 @@ body{
     background-image: url("MagicWallPaper.jpg");
     background-size: cover;
     background-repeat: no-repeat;
-    font-family: Snell Roundhand, cursive;
+    font-family: 'Poppins', sans-serif;
     margin: 0;
     padding: 20px;
     margin: auto;
     justify-content: center;
     align-items: center;
     text-align: center;
-    text-decoration-color: antiquewhite;
+    color:#fff
 }
 
 h1{
-    color: #fff;
+    color: #d6f0ff;
     font-size: 50px;
     text-shadow: 2px 2px 4px #000000;
 }
 
 h2{
-    color: #fff;
+    color: #d6f0ff;
     font-size: 30px;
     text-shadow: 2px 2px 4px #000000;
 }
 p{
-    color: #fff;
+    color: #d6f0ff;
     font-size: 20px;
     text-shadow: 1px 1px 2px #000000;
 }
@@ -55,11 +55,39 @@ label {
 }
 
 .container {
+  padding: 40px 20px;
+  max-width: 900px;
+  margin: auto;
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.top-bar{
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px;
+    justify-content: flex-end;
+    padding: 20px;
+}
+
+.language-dropdown {
+  background-color: #ffffff;
+  padding: 8px 12px;
+  border-radius: 8px;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.language-label {
+  margin-right: 8px;
+  color: #333;
+  font-weight: bold;
+}
+
+select {
+    padding: 5px 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
 }
 
 .grid-container {

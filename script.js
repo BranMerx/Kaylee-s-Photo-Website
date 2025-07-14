@@ -1,8 +1,12 @@
 //Event listener for the spanish language button
-document.getElementById('español').addEventListener('click', function(){
-  //Change the index html element to the selected language
-  window.location.href = "index_es.html";
-   
+document.getElementById('languageSelect').addEventListener('change', function() {
+  const selectedLanguage = this.value;
+  // Change the index html element to the selected language
+  if (selectedLanguage === 'es') {
+    window.location.href = "index_es.html";
+  } else {
+    window.location.href = "index.html";
+  }
 });
   //Change the index html element to the collage view
 document.getElementById('viewCollageButton').addEventListener('click', function(){
