@@ -55,7 +55,7 @@ document.getElementById('submitButton').addEventListener('click', async () => {
   formData.append('file', selectedFile);
 
   try{
-    const response = await fetch('http://localhost:5432/upload', {
+    const response = await fetch('https://kaylee-s-photo-website-production.up.railway.app/upload', {
       method: 'POST',
       body: formData
     });
