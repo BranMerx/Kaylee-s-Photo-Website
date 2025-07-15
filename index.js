@@ -14,7 +14,6 @@ app.use(express.json());
 
 const upload = multer({ dest: 'uploads/' });
 
-// AWS S3 client
 const s3 = new S3Client({
   region: 'us-east-2',
   credentials: {
