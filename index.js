@@ -14,6 +14,13 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public'))); // ✅ Now it's safe
 
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+app.get('/es', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index_es.html'));
+});
 
 const upload = multer({ dest: 'uploads/' });
 
