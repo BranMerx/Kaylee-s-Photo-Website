@@ -1,5 +1,5 @@
 const path = require('path');
-require('dotenv').config({ path: path.resolve(__dirname, '.env') }); // ✅ .env loading early
+require('dotenv').config({ path: path.resolve(__dirname, '.env') });
 
 const cors = require('cors');
 const express = require('express');
@@ -8,24 +8,19 @@ const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3');
 const { createClient } = require('@supabase/supabase-js');
 const fs = require('fs');
 
-const app = express(); // ✅ You must declare app *before* using it
+const app = express();
 
+// ✅ Enable CORS for your frontend
 app.use(cors({
-  origin:'https://kaylee-s-photo-website.onrender.com'
+  origin: 'https://kaylee-s-photo-website.onrender.com'
 }));
+app.options('*', cors()); // ✅ Preflight requests
+
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public'))); // ✅ Now it's safe
-
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-
-app.get('/es', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index_es.html'));
-});
 
 const upload = multer({ dest: 'uploads/' });
 
+// ✅ AWS S3 setup
 const s3 = new S3Client({
   region: 'us-east-2',
   credentials: {
@@ -34,13 +29,13 @@ const s3 = new S3Client({
   }
 });
 
-// Supabase client
+// ✅ Supabase setup
 const supabase = createClient(
   process.env.SUPABASE_URL,
   process.env.SUPABASE_ANON_KEY
 );
 
-// Upload route
+// ✅ POST /upload route
 app.post('/upload', upload.single('file'), async (req, res) => {
   const { firstName, lastName } = req.body;
   const file = req.file;
@@ -49,12 +44,12 @@ app.post('/upload', upload.single('file'), async (req, res) => {
     return res.status(400).json({ message: 'Missing name or file' });
   }
 
-  const fileContent = fs.readFileSync(file.path);
   const fileExtension = path.extname(file.originalname);
   const s3Key = `uploads/${Date.now()}_${firstName}_${lastName}${fileExtension}`;
+  const fileContent = fs.readFileSync(file.path);
 
   try {
-    // Upload file to S3
+    // Upload to S3
     await s3.send(new PutObjectCommand({
       Bucket: process.env.S3_BUCKET,
       Key: s3Key,
@@ -64,7 +59,7 @@ app.post('/upload', upload.single('file'), async (req, res) => {
 
     const s3URL = `https://${process.env.S3_BUCKET}.s3.${process.env.AWS_REGION}.amazonaws.com/${s3Key}`;
 
-    // Insert user
+    // Insert into User table
     const { data: userData, error: userError } = await supabase
       .from('User')
       .insert([{ FirstName: firstName, LastName: lastName }])
@@ -73,39 +68,31 @@ app.post('/upload', upload.single('file'), async (req, res) => {
     if (userError) throw userError;
     const userID = userData[0].UserID;
 
-    // Insert picture
+    // Insert into Picture table
     const { data: pictureData, error: pictureError } = await supabase
       .from('Picture')
       .insert([{ UserID: userID, S3url: s3URL }])
       .select();
 
     if (pictureError) throw pictureError;
-    const PictureID = pictureData[0].PictureID;
 
     res.json({
       message: 'File uploaded successfully',
       photoUrl: s3URL,
       UserID: userID,
-      PictureID: PictureID
+      PictureID: pictureData[0].PictureID
     });
 
   } catch (error) {
     console.error('Error uploading file:', error.message);
-    console.error(error);
     res.status(500).json({ message: 'Error uploading file', error: error.message });
   } finally {
-    // Delete temp file
-    fs.unlinkSync(file.path);
+    // Always delete temp file
+    fs.unlink(file.path, () => {});
   }
 });
 
-const PORT = process.env.PORT || 8080;
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Server running on port ${PORT}`);
-});
-
-//fetching photos and names from Supabase
-// Fetch photos and names from Supabase
+// ✅ GET /photos route
 app.get('/photos', async (req, res) => {
   try {
     const { data, error } = await supabase
@@ -120,16 +107,22 @@ app.get('/photos', async (req, res) => {
 
     if (error) throw error;
 
-    // Flatten the nested User object
-    const formattedPhotos = data.map(item => ({
+    const formatted = data.map(item => ({
       S3url: item.S3url,
       FirstName: item.User.FirstName,
       LastName: item.User.LastName
     }));
 
-    res.json(formattedPhotos);
+    res.json(formatted);
+
   } catch (error) {
     console.error('Error fetching photos:', error.message);
     res.status(500).json({ message: 'Error fetching photos', error: error.message });
   }
+});
+
+// ✅ Start server
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server running on port ${PORT}`);
 });
