@@ -1,16 +1,18 @@
 const path = require('path');
 require('dotenv').config({ path: path.resolve(__dirname, '.env') }); // ✅ .env loading early
 
+const cors = require('cors');
 const express = require('express');
 const multer = require('multer');
 const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3');
 const { createClient } = require('@supabase/supabase-js');
-const cors = require('cors');
 const fs = require('fs');
 
 const app = express(); // ✅ You must declare app *before* using it
 
-app.use(cors());
+app.use(cors({
+  origin:'https://kaylee-s-photo-website.onrender.com'
+}));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public'))); // ✅ Now it's safe
 
