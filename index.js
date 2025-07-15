@@ -1,4 +1,5 @@
 const path = require('path');
+app.use(express.static(path.join(__dirname, 'public'))); // Serve static files from the public directory
 require('dotenv').config({ path: path.resolve(__dirname, '.env') });
 
 const express = require('express');
@@ -87,7 +88,7 @@ app.post('/upload', upload.single('file'), async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 5342;
+const PORT = process.env.PORT || 8080;
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`);
 });
