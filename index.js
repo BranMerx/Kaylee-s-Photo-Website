@@ -10,9 +10,22 @@ const fs = require('fs');
 
 const app = express(); // ✅ You must declare app *before* using it
 
-app.use(cors({
-  origin:'https://kaylee-s-photo-website.onrender.com'
-}));
+app.use((req, res, next) => {
+  res.setHeader(
+    'Access-Control-Allow-Origin',
+    "https://kaylee-s-photo-website.onrender.com"
+  );
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, OPTIONS, PUT, PATCH, DELETE,OPTIONS,CONNECT,TRACE"
+  );
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    "Content-Type, Authorization, X-Content-Type-Options, Accept, X-Requested-With, Origin, Access-Control-Request-Method, Access-Control-Request-Headers"
+  );
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  next();
+});
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public'))); // ✅ Now it's safe
 
