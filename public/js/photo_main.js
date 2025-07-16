@@ -33,7 +33,7 @@ async function fetchPhotos() {
 
     photos.forEach(photo => {
       const fullName = `${photo.FirstName} ${photo.LastName}`;
-      addPhotoToGrid(photo.S3URL, fullName);
+      addPhotoToGrid(photo.S3url, fullName);
     }); 
   } catch (error) {
     console.error('Error fetching photos:', error);
