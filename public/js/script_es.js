@@ -57,7 +57,7 @@ document.getElementById('enviarButon').addEventListener('click', async () => {
   formData.append('file', selectedFile);
 
   try {
-    const response = await fetch('https://kaylee-s-photo-website-production.up.railway.app/upload', {
+    const response = await fetch('https://kaylee-s-photo-website.onrender.com/upload', {
       method: 'POST',
       body: formData
     });
