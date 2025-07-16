@@ -117,3 +117,7 @@ select {
   height: auto;
   display: block;
 }
+
+img{
+  border: 5px solid #17b4ee;
+}
