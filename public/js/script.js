@@ -25,6 +25,7 @@ document.getElementById('uploadButton').addEventListener('click', () => {
   document.getElementById('fileInput').click();
 });
 
+/*
 //Event listener to send collected file to the database
 document.getElementById('fileInput').addEventListener('change', async (event) => {
   const file = event.target.files[0];
@@ -77,4 +78,5 @@ document.getElementById('submitButton').addEventListener('click', async () => {
     console.error("Error uploading:", error);
     alert("Upload failed.");
   }
-});
+    */
+

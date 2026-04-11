@@ -4,6 +4,7 @@ document.getElementById('returnButton').addEventListener('click', function(){
   window.location.href = "index.html";
 });
 
+/*
 //Function to add a photo to the grid
 function addPhotoToGrid(photoUrl, fullName) {
   const gridItem = document.createElement('div');
@@ -41,5 +42,5 @@ async function fetchPhotos() {
 }
 // Call the function to fetch and display photos when the page loads
 fetchPhotos();
-
+*/
 

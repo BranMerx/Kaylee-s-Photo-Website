@@ -3,6 +3,8 @@ const photoGrid = document.getElementById('photoGrid');
 document.getElementById('returnButton_es').addEventListener('click', function(){
   window.location.href = "index_es.html";
 });
+
+/*
 function addPhotoToGrid(photoUrl, fullName) {
   const gridItem = document.createElement('div');
   gridItem.className = 'grid-item';
@@ -17,6 +19,7 @@ function addPhotoToGrid(photoUrl, fullName) {
   gridItem.appendChild(name);
   photoGrid.appendChild(gridItem);
 }
+
 
 // Function to fetch and display photos from the server
 async function fetchPhotos() {
@@ -38,4 +41,4 @@ async function fetchPhotos() {
 
 // Call the function to fetch and display photos when the page loads
 fetchPhotos();
-
+*/

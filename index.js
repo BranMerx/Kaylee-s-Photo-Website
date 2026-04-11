@@ -1,3 +1,4 @@
+/*
 const path = require('path');
 require('dotenv').config({ path: path.resolve(__dirname, '.env') }); // ✅ .env loading early
 
@@ -146,3 +147,4 @@ app.get('/photos', async (req, res) => {
     res.status(500).json({ message: 'Error fetching photos', error: error.message });
   }
 });
+*/
