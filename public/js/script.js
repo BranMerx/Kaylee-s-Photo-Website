@@ -18,6 +18,7 @@ document.getElementById('viewCollageButton').addEventListener('click', function(
   window.location.href = "photo_collage.html";
 });
 
+/*
 let selectedFile = null;
 //Event Listener for upload button to access phone camera and upload the picture
 document.getElementById('uploadButton').addEventListener('click', () => {
@@ -25,7 +26,7 @@ document.getElementById('uploadButton').addEventListener('click', () => {
   document.getElementById('fileInput').click();
 });
 
-/*
+
 //Event listener to send collected file to the database
 document.getElementById('fileInput').addEventListener('change', async (event) => {
   const file = event.target.files[0];
