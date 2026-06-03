@@ -39,6 +39,14 @@ button{
     border-radius: 5px;
     box-shadow: 2px 2px 4px #000000;
 }
+input[type="text"] {
+    width: 300px;
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+}
 
 label {
     color: #fff;
@@ -93,9 +101,8 @@ select {
 
 .grid-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 20px;
-  padding: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
 }
 
 .grid-item {
@@ -107,30 +114,10 @@ select {
 
 .grid-item img {
   width: 100%;
+  height: auto;
   display: block;
-  border-radius: 12px;
-  transition: transform .3s ease;
-}
-
-.grid-item img:hover {
-  transform: scale(1.05);
 }
 
 img{
   border: 5px solid #17b4ee;
-}
-
-.lightbox{
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.8);
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.lightbox img{
-  max-width: 90%;
-  max-height: 90%;
 }
